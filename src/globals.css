@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f8f6f2;
+  --color-background-secondary: #f3f0ea;
+  --color-background-tertiary: #ece7df;
+
+  --color-surface: #ffffff;
+  --color-surface-hover: #f9f7f3;
+  --color-surface-elevated: #ffffff;
+
+  --color-primary: #c6a969;
+  --color-primary-light: #d6b879;
+  --color-primary-dark: #a88b4f;
+
+  --color-primary-foreground: #ffffff;
+
+  --color-gold-soft: #e9d9b5;
+  --color-gold-muted: #9c8454;
+  --color-gold-glow: rgba(198, 169, 105, 0.2);
+
+  --color-text: #1e1e1e;
+  --color-text-soft: #3f3f46;
+  --color-text-muted: #6e6e73;
+  --color-text-disabled: #a1a1aa;
+
+  --color-border: #ddd6cc;
+  --color-border-light: #ebe6de;
+  --color-border-strong: #cfc7bb;
+
+  --color-success: #4f7c5a;
+  --color-success-light: #6d9b78;
+
+  --color-danger: #b04a4a;
+  --color-danger-light: #cc6666;
+
+  --color-warning: #d4a017;
+  --color-warning-light: #e8bb45;
+
+  --color-info: #4a90b0;
+  --color-info-light: #6ea9c4;
+
+  --color-overlay-light: rgba(0, 0, 0, 0.02);
+  --color-overlay-medium: rgba(0, 0, 0, 0.05);
+  --color-overlay-strong: rgba(0, 0, 0, 0.08);
+
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 15px 50px rgba(0, 0, 0, 0.08);
+
+  --shadow-gold: 0 0 30px rgba(198, 169, 105, 0.12);
+
+  --gradient-primary: linear-gradient(135deg, #c6a969 0%, #e9d9b5 100%);
+
+  --gradient-light: linear-gradient(180deg, #f8f6f2 0%, #ffffff 100%);
+
+  --gradient-surface: linear-gradient(180deg, #ffffff 0%, #f9f7f3 100%);
+
+  --color-glass-background: rgba(255, 255, 255, 0.65);
+  --color-glass-border: rgba(0, 0, 0, 0.06);
+  --glass-blur: blur(16px);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  --font-display: "Manrope", sans-serif;
+  --font-title: "Cormorant Garamond", serif;
+}
+body {
+  background-color: var(--color-background);
+  font-family: var(--font-display);
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../public/fonts/Manrope-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: bold;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../public/fonts/Manrope-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: light;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../public/fonts/Manrope-Light.ttf") format("truetype");
+}
