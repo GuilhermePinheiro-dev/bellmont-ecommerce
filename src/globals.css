@@ -81,19 +81,25 @@ body {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../public/fonts/Manrope-Regular.ttf") format("truetype");
+  src: url("./assets/fonts/Manrope-Regular.ttf") format("truetype");
 }
 @font-face {
   font-family: "Manrope";
   font-style: bold;
   font-weight: 700;
   font-display: swap;
-  src: url("../public/fonts/Manrope-Bold.ttf") format("truetype");
+  src: url("./assets/fonts/Manrope-Bold.ttf") format("truetype");
 }
 @font-face {
   font-family: "Manrope";
   font-style: light;
   font-weight: 300;
   font-display: swap;
-  src: url("../public/fonts/Manrope-Light.ttf") format("truetype");
+  src: url("./assets/fonts/Manrope-Light.ttf") format("truetype");
+}
+
+@utility container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 10px ;
 }
