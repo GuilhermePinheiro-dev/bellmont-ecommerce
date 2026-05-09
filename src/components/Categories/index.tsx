@@ -13,7 +13,7 @@ const categories = [
 
 export const Categories = () => {
   return (
-    <section className="container flex lg:grid lg:grid-cols-4 mb-10 gap-4 overflow-x-auto mt-6 scrollbar-hide snap-x snap-mandatory">
+    <section className="container flex lg:grid lg:grid-cols-4 my-5 gap-4 overflow-x-auto  scrollbar-hide snap-x snap-mandatory">
       {categories.map((category, i) => (
         <div key={i} 
         style={{backgroundImage: `url(${category.image})`}}

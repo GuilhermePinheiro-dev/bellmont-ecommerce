@@ -112,3 +112,33 @@ body {
 .scrollbar-hide {
   scrollbar-width: none;
 }
+
+@utility grid-gallery {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(5, auto);
+  grid-template-areas:
+    "highlight highlight"
+    "joias joias"
+    "model perfume"
+    "model acessorios"
+    "roupas roupas";
+
+  @media (min-width: 1024px) {
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 300px);
+    grid-template-areas:
+      "highlight highlight roupas roupas"
+      "highlight highlight model perfume"
+      "joias joias model acessorios";
+  }
+}
+
+@utility area-highlight { grid-area: highlight; }
+@utility area-roupas { grid-area: roupas; }
+@utility area-model { grid-area: model; }
+@utility area-perfume { grid-area: perfume; }
+@utility area-joias { grid-area: joias; }
+@utility area-acessorios { grid-area: acessorios; }
