@@ -1,7 +1,7 @@
 import { GoPerson } from "react-icons/go";
 import { GoQuestion } from "react-icons/go";
 import { IoBagOutline } from "react-icons/io5";
-import logoBellmont from "../../assets/img/logo-bellmont.png";
+import logoBellmont from "@/assets/img/logo-bellmont.png";
 
 export const Header = () => {
   return (

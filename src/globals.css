@@ -40,6 +40,7 @@
   --color-info: #4a90b0;
   --color-info-light: #6ea9c4;
 
+  --color-overlay: #0000004d;
   --color-overlay-light: rgba(0, 0, 0, 0.02);
   --color-overlay-medium: rgba(0, 0, 0, 0.05);
   --color-overlay-strong: rgba(0, 0, 0, 0.08);
@@ -101,5 +102,13 @@ body {
 @utility container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 10px ;
+  padding: 0 10px;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
 }
