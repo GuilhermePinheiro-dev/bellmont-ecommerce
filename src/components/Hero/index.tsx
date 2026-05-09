@@ -11,7 +11,7 @@ export const Hero = () => {
           className="h-full w-full rounded-3xl object-cover"
         />
 
-        <div className="absolute w-full bottom-0 flex justify-start items-center text-center px-6 md:px-24 pb-40 font-title">
+        <div className="absolute w-full bottom-0 flex justify-start items-center text-center px-6 md:px-24 lg:px-40 pb-35 font-title">
             <div>
                 <h2 className="text-xl mb-2">Aureon one</h2>
                 <h1 className="text-4xl mb-8">Luxo em cada detalhe.</h1>
