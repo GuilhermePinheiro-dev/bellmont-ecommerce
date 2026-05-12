@@ -4,17 +4,23 @@ import galeriaModelo from "@/assets/img/galeria-modelo.png";
 import galeriaPerfume from "@/assets/img/galeria-perfume.png";
 import galeriaJoias from "@/assets/img/galeria-joias.png";
 import galeriaAcessorios from "@/assets/img/galeria-acessorios.png";
+import { Overlay } from "../Overlay";
+import { Button } from "../Button";
 
 export const Gallery = () => {
   return (
     <section className="container">
       <div className="grid-gallery">
-        <div className="area-highlight overflow-hidden rounded-3xl">
+        <div className="area-highlight overflow-hidden rounded-3xl relative">
           <img
             src={galeriaCard}
             alt="Modelo masculino"
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
           />
+          <Overlay title="Aureon one" subtitle="Luxo em cada detalhe" className="inset-0 justify-center text-center text-white">
+            <Button variant="secundary" className="text-white">Masculino</Button>
+            <Button variant="secundary" className="text-white">Feminno</Button>
+          </Overlay>
         </div>
         
         <div className="area-joias overflow-hidden rounded-3xl">
