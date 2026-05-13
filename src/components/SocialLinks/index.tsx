@@ -18,7 +18,7 @@ export const SocialLinks = () => {
       <ul className="flex gap-5 text-2xl">
         {socialLinks.map(({ href, icon, name }) => (
           <li key={name} aria-label={name}>
-            <a href={href}>{icon}</a>
+            <a href={href} className="hover:text-gold-soft">{icon}</a>
           </li>
         ))}
       </ul>

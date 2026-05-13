@@ -15,8 +15,8 @@ export const Footer = () => {
           </div>
           <MenuItems />
         </div>
-      </div>
       <Copyright />
+      </div>
     </footer>
   );
 };
