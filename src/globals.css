@@ -51,7 +51,7 @@
 
   --shadow-gold: 0 0 30px rgba(198, 169, 105, 0.12);
 
-  --gradient-primary: linear-gradient(135deg, #c6a969 0%, #e9d9b5 100%);
+  --gradient-primary: linear-gradient(30deg, #c6a969 0%, #e9d9b5 100%);
 
   --gradient-light: linear-gradient(180deg, #f8f6f2 0%, #ffffff 100%);
 

@@ -31,7 +31,7 @@ export const Header = () => {
             </ul>
           </nav>
           <nav>
-            <ul className="flex gap-10 text-[20px]">
+            <ul className="flex gap-4 sm:gap-10 text-[20px]">
               <li>
                 <a
                   href="#"

@@ -23,7 +23,7 @@ export const Gallery = () => {
           </Overlay>
         </div>
         
-        <div className="area-joias overflow-hidden rounded-3xl">
+        <div className="area-joias overflow-hidden rounded-3xl lg:h-auto md:h-100 h-75">
           <img
             src={galeriaJoias}
             alt="Joias douradas"
@@ -55,7 +55,7 @@ export const Gallery = () => {
           />
         </div>
 
-        <div className="area-roupas overflow-hidden rounded-3xl">
+        <div className="area-roupas overflow-hidden rounded-3xl lg:h-auto md:h-100 h-75">
           <img
             src={galeriaRoupas}
             alt="Roupas"
