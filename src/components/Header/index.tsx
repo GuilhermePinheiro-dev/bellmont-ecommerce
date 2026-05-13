@@ -2,6 +2,7 @@ import { GoPerson } from "react-icons/go";
 import { GoQuestion } from "react-icons/go";
 import { IoBagOutline } from "react-icons/io5";
 import logoBellmont from "@/assets/img/logo-bellmont.png";
+import { Link } from "@tanstack/react-router";
 
 export const Header = () => {
   return (
@@ -37,7 +38,9 @@ export const Header = () => {
                   href="#"
                   className="hover:text-primary-light transition-colors ease-in-out"
                 >
-                  <GoPerson />
+                  <Link to="/sign-up">
+                    <GoPerson />
+                  </Link>
                 </a>
               </li>
               <li>
