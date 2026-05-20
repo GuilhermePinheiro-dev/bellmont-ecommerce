@@ -9,17 +9,19 @@ export const Header = () => {
     <div className="relative">
       <header className="fixed top-6 left-0 right-0 z-10 mx-10 ">
         <div className="max-w-330 mx-auto flex justify-between bg-surface border border-glass-border items-center px-6 rounded-3xl text-text mt-5">
-          <img src={logoBellmont} alt="logo bellmont" className="max-w-30" />
+          <Link to="/">
+            <img src={logoBellmont} alt="logo bellmont" className="max-w-30" />
+          </Link>
 
           <nav className="hidden md:block">
             <ul className="flex gap-10 ">
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/products"
                   className="hover:text-primary-light transition-colors ease-in-out"
                 >
                   Produtos
-                </a>
+                </Link>
               </li>
               <li>
                 <a
@@ -34,14 +36,12 @@ export const Header = () => {
           <nav>
             <ul className="flex gap-4 sm:gap-10 text-[20px]">
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/sign-up"
                   className="hover:text-primary-light transition-colors ease-in-out"
                 >
-                  <Link to="/sign-up">
-                    <GoPerson />
-                  </Link>
-                </a>
+                  <GoPerson />
+                </Link>
               </li>
               <li>
                 <a
