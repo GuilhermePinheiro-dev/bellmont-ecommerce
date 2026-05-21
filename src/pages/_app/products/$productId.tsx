@@ -23,11 +23,11 @@ function RouteComponent() {
         <span className="font-semibold"> {filteredProduct?.name} </span>
       </nav>
 
-      <div className="flex flex-col md:flex-row justify-center gap-10 px-5 md:px-0">
+      <div className="flex flex-col md:flex-row justify-center gap-10 px-5 md:px-0 items-center">
         <img
           src={filteredProduct?.image}
           alt={filteredProduct?.name}
-          className="w-125 bg-gold-glow rounded-2xl object-cover"
+          className="w-125 h-full md:h-106.25 bg-gold-glow rounded-2xl object-cover"
         />
         <div>
           <h1 className="font-bold text-4xl mb-1 font-title">
