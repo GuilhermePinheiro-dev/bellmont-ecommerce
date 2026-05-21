@@ -1,8 +1,8 @@
 import { GoPerson } from "react-icons/go";
 import { GoQuestion } from "react-icons/go";
-import { IoBagOutline } from "react-icons/io5";
 import logoBellmont from "@/assets/img/logo-bellmont.png";
 import { Link } from "@tanstack/react-router";
+import { ShoppingCart } from "../ShoppingCart";
 
 export const Header = () => {
   return (
@@ -52,12 +52,13 @@ export const Header = () => {
                 </a>
               </li>
               <li>
-                <a
+                {/* <a
                   href="#"
                   className="hover:text-primary-light transition-colors ease-in-out"
                 >
                   <IoBagOutline />
-                </a>
+                </a> */}
+                <ShoppingCart />
               </li>
             </ul>
           </nav>
