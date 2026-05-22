@@ -62,11 +62,11 @@ export const ShoppingCart = () => {
       </button>
 
       <div
-        className={`${valueDrawer ? "w-full bg-black/70" : "w-0"} fixed bottom-0 left-0 top-0 `}
+        className={`${valueDrawer ? " bg-black/70 visible" : "bg-transparent invisible"} fixed bottom-0 left-0 top-0 right-0 duration-300`}
         onClick={() => setValueDrawer(!valueDrawer)}
       >
         <div
-          className={`${valueDrawer ? "w-75 md:w-106" : "w-0"} absolute right-0 top-0 bottom-0 pt-6 bg-white transition-all ease-in-out duration-600`}
+          className={`${valueDrawer ? "translate-x-0" : "translate-x-full"} h-full absolute right-0 top-0 bottom-0 pt-6 bg-background transition-all ease-in-out duration-600 w-75 md:w-106`}
           onClick={(e) => e.stopPropagation()}
         >
           <header className="flex justify-between font-semibold items-center px-5">
@@ -80,11 +80,10 @@ export const ShoppingCart = () => {
             </button>
           </header>
 
-          <section>
-            <ul>
+            <ul className="overflow-y-auto scrollbar-hide h-[calc(100%-140px)] py-4 flex flex-col gap-3">
               {productsInCart.map((product) => (
                 <li key={product.id} className="flex flex-col gap-1 px-10">
-                  <button className="self-end cursor-pointer" >
+                  <button className="self-end cursor-pointer">
                     <LuX />
                   </button>
                   <div className="flex gap-5">
@@ -97,11 +96,13 @@ export const ShoppingCart = () => {
                     <div className="flex flex-col items-start gap-1">
                       <p className="text-sm">{product.name}</p>
                       <p className="text-sm">Quantidade:{product.quantity}</p>
-                      <p className="font-semibold text-[17px]">{formatCurrency(product.price)} à vista</p>
+                      <p className="font-semibold text-[17px]">
+                        {formatCurrency(product.price)} à vista
+                      </p>
 
-                      <div className="flex gap-4 border px-1 px-3">
+                      <div className="flex gap-5 border py-1 px-4 items-center">
                         <button className="cursor-pointer">-</button>
-                        <p>{product.quantity}</p>
+                        <p className="text-[16px]">{product.quantity}</p>
                         <button className="cursor-pointer">+</button>
                       </div>
                     </div>
@@ -109,7 +110,11 @@ export const ShoppingCart = () => {
                 </li>
               ))}
             </ul>
-          </section>
+            <footer className="absolute bottom-0 w-full h-25 p-4 ">
+              <button className="h-full w-full bg-primary-dark hover:bg-primary text-white cursor-pointer rounded-xs">
+                Fechar Pedido
+              </button>
+            </footer>
         </div>
       </div>
     </>
