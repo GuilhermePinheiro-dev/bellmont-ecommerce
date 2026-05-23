@@ -1,54 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoBagOutline } from "react-icons/io5";
 import { LuX } from "react-icons/lu";
-
-import BellmontNoirEssence from "@/assets/img/product-perfume-1.png";
-import BellmontGoldenElixir from "@/assets/img/product-perfume-2.png";
-import BellmontImperialOud from "@/assets/img/product-perfume-3.png";
-import BellmontChronos from "@/assets/img/product-relogio-1.png";
-import BellmontHeritageGold from "@/assets/img/product-relogio-2.png";
+import { CartContext } from "../contexts/CartContext";
 import { formatCurrency } from "../../utils/format-currency";
 
-const productsInCart = [
-  {
-    id: 1,
-    name: "Produto 1",
-    image: BellmontNoirEssence,
-    price: 35,
-    quantity: 5,
-  },
-  {
-    id: 2,
-    name: "Produto 2",
-    image: BellmontGoldenElixir,
-    price: 75,
-    quantity: 2,
-  },
-  {
-    id: 3,
-    name: "Produto 3",
-    image: BellmontImperialOud,
-    price: 85,
-    quantity: 4,
-  },
-  {
-    id: 4,
-    name: "Produto 4",
-    image: BellmontChronos,
-    price: 135,
-    quantity: 6,
-  },
-  {
-    id: 5,
-    name: "Produto 5",
-    image: BellmontHeritageGold,
-    price: 15,
-    quantity: 2,
-  },
-];
 
 export const ShoppingCart = () => {
   const [valueDrawer, setValueDrawer] = useState<boolean>(false);
+  const { cart, removeFromCart, incrementQuantity, decrementQuantity } = useContext(CartContext)
 
   return (
     <>
@@ -70,7 +29,7 @@ export const ShoppingCart = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <header className="flex justify-between font-semibold items-center px-5">
-            <p>Carrinho ({productsInCart.length})</p>
+            <p>Carrinho ({cart.length})</p>
 
             <button
               className="cursor-pointer text-3xl"
@@ -81,9 +40,10 @@ export const ShoppingCart = () => {
           </header>
 
             <ul className="overflow-y-auto scrollbar-hide h-[calc(100%-140px)] py-4 flex flex-col gap-3">
-              {productsInCart.map((product) => (
+              {cart.map((product) => (
                 <li key={product.id} className="flex flex-col gap-1 px-10">
-                  <button className="self-end cursor-pointer">
+                  <button className="self-end cursor-pointer"
+                  onClick={() => removeFromCart(product.id)}>
                     <LuX />
                   </button>
                   <div className="flex gap-5">
@@ -101,9 +61,11 @@ export const ShoppingCart = () => {
                       </p>
 
                       <div className="flex gap-5 border py-1 px-4 items-center">
-                        <button className="cursor-pointer">-</button>
+                        <button className="cursor-pointer"
+                        onClick={() => decrementQuantity(product)}>-</button>
                         <p className="text-[16px]">{product.quantity}</p>
-                        <button className="cursor-pointer">+</button>
+                        <button className="cursor-pointer"
+                        onClick={() => incrementQuantity(product)}>+</button>
                       </div>
                     </div>
                   </div>
