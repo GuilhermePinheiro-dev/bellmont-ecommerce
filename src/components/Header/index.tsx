@@ -3,8 +3,12 @@ import { GoQuestion } from "react-icons/go";
 import logoBellmont from "@/assets/img/logo-bellmont.png";
 import { Link } from "@tanstack/react-router";
 import { ShoppingCart } from "../ShoppingCart";
+import { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
 
 export const Header = () => {
+  const { cart } = useContext(CartContext)
+
   return (
     <div className="relative">
       <header className="fixed top-6 left-0 right-0 z-10 mx-10 ">
@@ -34,7 +38,7 @@ export const Header = () => {
             </ul>
           </nav>
           <nav>
-            <ul className="flex gap-4 sm:gap-10 text-[20px]">
+            <ul className="flex gap-4 sm:gap-10 text-[20px] items-center">
               <li>
                 <Link
                   to="/sign-up"
@@ -51,14 +55,12 @@ export const Header = () => {
                   <GoQuestion />
                 </a>
               </li>
-              <li>
-                {/* <a
-                  href="#"
-                  className="hover:text-primary-light transition-colors ease-in-out"
-                >
-                  <IoBagOutline />
-                </a> */}
+              <li className="relative">
                 <ShoppingCart />
+                {cart.length > 0 && 
+                <div className="absolute w-4 h-4 rounded-full -top-1 -right-2 bg-danger-light text-white text-[10px] text-center">
+                    {cart.length}
+                </div>}
               </li>
             </ul>
           </nav>
