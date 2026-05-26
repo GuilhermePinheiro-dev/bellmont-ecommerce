@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
 
 export const Header = () => {
-  const { cart } = useContext(CartContext)
+  const { cart } = useContext(CartContext);
 
   return (
     <div className="relative">
@@ -28,12 +28,12 @@ export const Header = () => {
                 </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/our-stores"
                   className="hover:text-primary-light transition-colors ease-in-out"
                 >
                   Nossas lojas
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
@@ -57,10 +57,11 @@ export const Header = () => {
               </li>
               <li className="relative">
                 <ShoppingCart />
-                {cart.length > 0 && 
-                <div className="absolute w-4 h-4 rounded-full -top-1 -right-2 bg-danger-light text-white text-[10px] text-center">
+                {cart.length > 0 && (
+                  <div className="absolute w-4 h-4 rounded-full -top-1 -right-2 bg-danger-light text-white text-[10px] text-center">
                     {cart.length}
-                </div>}
+                  </div>
+                )}
               </li>
             </ul>
           </nav>
