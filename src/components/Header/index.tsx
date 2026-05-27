@@ -35,6 +35,14 @@ export const Header = () => {
                   Nossas lojas
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="hover:text-primary-light transition-colors ease-in-out"
+                >
+                  Sobre
+                </Link>
+              </li>
             </ul>
           </nav>
           <nav>
