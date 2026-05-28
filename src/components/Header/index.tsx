@@ -5,6 +5,18 @@ import { Link } from "@tanstack/react-router";
 import { ShoppingCart } from "../ShoppingCart";
 import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
+import { MenuMobile } from "../MenuMobile";
+
+
+export interface NavLinks{
+  name: string,
+  href: string,
+}
+
+const navLinks: NavLinks[] = [
+  {name: "Produtos", href: "/products" },
+  {name: "Nossas lojas", href: "/our-stores" },
+]
 
 export const Header = () => {
   const { cart } = useContext(CartContext);
@@ -18,36 +30,21 @@ export const Header = () => {
           </Link>
 
           <nav className="hidden md:block">
-            <ul className="flex gap-10 ">
-              <li>
-                <Link
-                  to="/products"
-                  className="hover:text-primary-light transition-colors ease-in-out"
-                >
-                  Produtos
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/our-stores"
-                  className="hover:text-primary-light transition-colors ease-in-out"
-                >
-                  Nossas lojas
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/about"
-                  className="hover:text-primary-light transition-colors ease-in-out"
-                >
-                  Sobre
-                </Link>
-              </li>
+            <ul className="flex gap-10">
+              {navLinks.map(link => (
+                <li key={link.name}
+                className="hover:text-primary-light transition-colors ease-in-out">
+                  <Link to={link.href}>{link.name}</Link>
+                </li>
+              ))}
             </ul>
           </nav>
           <nav>
             <ul className="flex gap-4 sm:gap-10 text-[20px] items-center">
               <li>
+                <MenuMobile navLinks={navLinks} />
+              </li>
+              <li className="hidden md:block">
                 <Link
                   to="/sign-up"
                   className="hover:text-primary-light transition-colors ease-in-out"
@@ -55,13 +52,13 @@ export const Header = () => {
                   <GoPerson />
                 </Link>
               </li>
-              <li>
-                <a
-                  href="#"
+              <li className="hidden md:block">
+                <Link
+                  to="/about"
                   className="hover:text-primary-light transition-colors ease-in-out"
                 >
                   <GoQuestion />
-                </a>
+                </Link>
               </li>
               <li className="relative">
                 <ShoppingCart />
