@@ -3,6 +3,7 @@ interface ButtonProps {
   variant?: "primary" | "secundary";
   size?: "sm" | "md" | "lg";
   className?: string;
+  onClick?: () => void
 }
 
 export const Button = ({
@@ -10,6 +11,7 @@ export const Button = ({
   variant = "primary",
   size = "md",
   className ="",
+  onClick,
 }: ButtonProps) => {
   const buttonStyles = {
     base: "flex justify-center items-center gap-2 text-nowrap cursor-pointer transition-colors rounded-full font-medium transition py-2.5 duration-200",
@@ -26,5 +28,5 @@ export const Button = ({
   };
 
   const VariantButtonStyles = `${buttonStyles.base} ${buttonStyles.variant[variant]} ${buttonStyles.size[size]} ${className}`;
-  return <button className={VariantButtonStyles}>{children}</button>;
+  return <button className={VariantButtonStyles} onClick={onClick}>{children}</button>;
 };

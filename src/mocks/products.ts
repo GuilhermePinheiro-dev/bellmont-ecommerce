@@ -19,6 +19,7 @@ export const products = [
     color: "Preto Fosco",
     description:
       "Uma fragrância intensa e sofisticada com notas amadeiradas, couro e âmbar dourado. Criado para homens elegantes e marcantes.",
+      category: { id: 1, name: "Perfumes"}
   },
 
   {
@@ -29,6 +30,7 @@ export const products = [
     color: "Dourado Champagne",
     description:
       "Perfume premium com toque cítrico refinado, lavanda francesa e fundo quente de baunilha e musk.",
+    category: { id: 1, name: "Perfumes" }
   },
 
   {
@@ -39,6 +41,7 @@ export const products = [
     color: "Marrom Espresso",
     description:
       "Fragrância luxuosa inspirada no oriente moderno, misturando oud, especiarias nobres e madeira escura.",
+    category: { id: 1, name: "Perfumes" }
   },
 
   {
@@ -49,6 +52,7 @@ export const products = [
     color: "Preto Ônix",
     description:
       "Relógio minimalista com caixa premium em aço escovado e pulseira em couro legítimo preto.",
+    category: { id: 2, name: "Relogios" }
   },
 
   {
@@ -59,6 +63,7 @@ export const products = [
     color: "Dourado Fosco",
     description:
       "Elegância clássica com acabamento dourado champagne e mostrador sofisticado inspirado na alta relojoaria.",
+    category: { id: 2, name: "Relogios" }
   },
 
   {
@@ -69,6 +74,7 @@ export const products = [
     color: "Grafite Escuro",
     description:
       "Design moderno com pulseira metálica premium e detalhes minimalistas para um visual sofisticado.",
+    category: { id: 2, name: "Relogios" }
   },
 
   {
@@ -79,6 +85,7 @@ export const products = [
     color: "Dourado Premium",
     description:
       "Anel sofisticado com acabamento polido e design minimalista inspirado em joias clássicas europeias.",
+    category: { id: 3, name: "Joias" }
   },
 
   {
@@ -89,6 +96,7 @@ export const products = [
     color: "Ouro Champagne",
     description:
       "Colar refinado com corrente delicada e pingente exclusivo Bellmont para compor um visual luxuoso.",
+    category: { id: 3, name: "Joias" }
   },
 
   {
@@ -99,6 +107,7 @@ export const products = [
     color: "Marrom Café",
     description:
       "Polo premium confeccionada em tecido macio de alta qualidade com caimento elegante e minimalista.",
+      category: { id: 4, name: "Roupas" }
   },
 
   {
@@ -109,5 +118,6 @@ export const products = [
     color: "Bege Areia",
     description:
       "Camisa sofisticada com modelagem moderna e tecido leve, perfeita para ocasiões elegantes e casuais.",
+      category: { id: 4, name: "Roupas" }
   },
 ];

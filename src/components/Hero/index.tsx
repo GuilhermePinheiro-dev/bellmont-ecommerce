@@ -1,8 +1,10 @@
 import banner from "@/assets/img/banner.png";
 import { Button } from "../Button";
 import { Overlay } from "../Overlay";
+import { useRouter } from "@tanstack/react-router";
 
 export const Hero = () => {
+  const router = useRouter()
   return (
     <div className="container">
       <section className="h-125 relative">
@@ -18,6 +20,7 @@ export const Hero = () => {
             className="text-white sm:text-text"
             variant="secundary"
             size="sm"
+            onClick={() => router.navigate({ to: "/products"})}
           >
             Ver produtos
           </Button>
