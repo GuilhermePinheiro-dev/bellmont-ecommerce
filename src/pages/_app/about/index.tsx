@@ -4,6 +4,9 @@ import galeriaCard from "@/assets/img/galeria-card.png";
 
 export const Route = createFileRoute("/_app/about/")({
   component: RouteComponent,
+  head: () => ({
+    meta: [{ title: "Sobre - Bellmont" }],
+  })
 });
 
 function RouteComponent() {

@@ -6,6 +6,9 @@ import IconeGoogle from "@/assets/img/google-icon.png";
 
 export const Route = createFileRoute("/_auth/sign-in")({
   component: RouteComponent,
+  head: () => ({
+    meta: [{ title: "Login - Bellmont" }],
+  })
 });
 
 function RouteComponent() {

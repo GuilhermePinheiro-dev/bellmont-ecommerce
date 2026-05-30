@@ -5,6 +5,9 @@ import OurStores2 from "@/assets/img/loja-2.png";
 
 export const Route = createFileRoute("/_app/our-stores/")({
   component: RouteComponent,
+  head: () => ({
+    meta: [{ title: "Nossas Lojas - Bellmont" }],
+  })
 });
 
 function RouteComponent() {
