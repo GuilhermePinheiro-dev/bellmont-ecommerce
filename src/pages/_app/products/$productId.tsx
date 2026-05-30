@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { products } from "../../../mocks/products";
 import { formatCurrency } from "../../../utils/format-currency";
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CartContext } from "../../../components/contexts/CartContext";
 import { CEPForm } from "../../../components/CEPForm";
 
@@ -22,10 +22,36 @@ export const Route = createFileRoute("/_app/products/$productId")({
 
 function RouteComponent() {
   const { addinCart } = useContext(CartContext);
+  const [showAddedMessage, setShowAddedMessage] = useState(false);
+  const messageTimeoutRef = useRef<number | null>(null);
   const { productId } = Route.useParams();
   const filteredProduct = products.find(
     (product) => product.id === Number(productId),
   );
+
+  const handleAddToCart = () => {
+    if (!filteredProduct) return;
+
+    addinCart(filteredProduct);
+    setShowAddedMessage(true);
+
+    if (messageTimeoutRef.current) {
+      window.clearTimeout(messageTimeoutRef.current);
+    }
+
+    messageTimeoutRef.current = window.setTimeout(() => {
+      setShowAddedMessage(false);
+      messageTimeoutRef.current = null;
+    }, 1500);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (messageTimeoutRef.current) {
+        window.clearTimeout(messageTimeoutRef.current);
+      }
+    };
+  }, []);
 
   if (!filteredProduct)
     return (
@@ -92,11 +118,23 @@ function RouteComponent() {
 
           <button
             className="w-full p-5 bg-text text-surface rounded-md cursor-pointer"
-            onClick={() => addinCart(filteredProduct)}
+            onClick={handleAddToCart}
           >
             Adicionar ao carrinho
           </button>
         </div>
+      </div>
+
+      <div
+        className={`pointer-events-none inset-x-0 bottom-10 fixed flex justify-center transition-all duration-300 ease-in-out ${
+          showAddedMessage
+            ? "opacity-100 translate-y-0 visible"
+            : "opacity-0 translate-y-2 visible:invisible"
+        }`}
+      >
+        <span className="bg-black/80 text-white px-6 py-4 rounded-full shadow-lg">
+          Adicionado ao carrinho
+        </span>
       </div>
     </section>
   );
