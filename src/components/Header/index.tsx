@@ -2,10 +2,11 @@ import { GoPerson } from "react-icons/go";
 import { GoQuestion } from "react-icons/go";
 import logoBellmont from "@/assets/img/logo-bellmont.png";
 import { Link } from "@tanstack/react-router";
-import { ShoppingCart } from "../ShoppingCart";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../contexts/CartContext";
 import { MenuMobile } from "../MenuMobile";
+import { CartButton } from "../CartButton";
+import { CartDrawer } from "../CartDrawer";
 
 
 export interface NavLinks{
@@ -20,6 +21,7 @@ const navLinks: NavLinks[] = [
 
 export const Header = () => {
   const { cart } = useContext(CartContext);
+  const [cartIsOpen, setCartValue] = useState<boolean>(false)
 
   return (
     <div className="relative">
@@ -61,7 +63,7 @@ export const Header = () => {
                 </Link>
               </li>
               <li className="relative">
-                <ShoppingCart />
+                <CartButton onClick={() => setCartValue(true)}/>
                 {cart.length > 0 && (
                   <div className="absolute w-4 h-4 rounded-full -top-1 -right-2 bg-danger-light text-white text-[10px] text-center">
                     {cart.length}
@@ -72,6 +74,8 @@ export const Header = () => {
           </nav>
         </div>
       </header>
+
+      <CartDrawer isOpen={cartIsOpen} onClose={() => setCartValue(false)}/>
     </div>
   );
 };
