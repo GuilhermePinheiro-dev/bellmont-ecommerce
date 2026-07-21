@@ -81,7 +81,7 @@ function RouteComponent() {
 
       <div className="flex flex-col md:flex-row justify-center gap-10 px-5 md:px-0 items-center">
         <img
-          src={filteredProduct?.image}
+          src={filteredProduct?.images?.[0]}
           alt={filteredProduct?.name}
           className="w-125 h-full md:h-106.25 bg-gold-glow rounded-2xl object-cover"
         />

@@ -6,16 +6,26 @@ export const Route = createFileRoute("/_app/products/categorys/$category")({
   component: RouteComponent,
   head: () => ({
     meta: [{ title: "Produtos - Bellmont" }],
-  })
+  }),
 });
 
 function RouteComponent() {
   const { category } = Route.useParams();
 
-  const filteredProducts = products.filter(
-    (product) =>
-      (product.category.name ?? "").toLowerCase() === category.toLowerCase(),
-  );
+  const filteredProducts = products.filter((product) => {
+    const categoryName =
+      product.categoryId === 1
+        ? "Perfumes"
+        : product.categoryId === 2
+          ? "Relogios"
+          : product.categoryId === 3
+            ? "Joias"
+            : product.categoryId === 4
+              ? "Roupas"
+              : "";
+
+    return categoryName.toLowerCase() === category.toLowerCase();
+  });
 
   return (
     <section className="container pt-34 pb-1 px-2 md:px-10">

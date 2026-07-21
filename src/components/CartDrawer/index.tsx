@@ -4,15 +4,14 @@ import { LuX } from "react-icons/lu";
 import { formatCurrency } from "../../utils/format-currency";
 
 interface CartDrawerProps {
-    isOpen: boolean,
-    onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export const CartDrawer = ({ isOpen, onClose}: CartDrawerProps) => {
+export const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
   const { cart, removeFromCart, incrementQuantity, decrementQuantity } =
     useContext(CartContext);
 
-    
   return (
     <div
       className={`${isOpen ? " bg-black/70 visible" : "bg-transparent invisible"} fixed bottom-0 left-0 top-0 right-0 duration-300 z-40`}
@@ -25,10 +24,7 @@ export const CartDrawer = ({ isOpen, onClose}: CartDrawerProps) => {
         <header className="flex justify-between font-semibold items-center px-5">
           <p>Carrinho ({cart.length})</p>
 
-          <button
-            className="cursor-pointer text-3xl"
-            onClick={onClose}
-          >
+          <button className="cursor-pointer text-3xl" onClick={onClose}>
             <LuX />
           </button>
         </header>
@@ -43,11 +39,17 @@ export const CartDrawer = ({ isOpen, onClose}: CartDrawerProps) => {
                 <LuX />
               </button>
               <div className="flex gap-5">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-16 h-16 object-cover"
-                />
+                {product.images?.[0] ? (
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="w-16 h-16 object-cover"
+                  />
+                ) : (
+                  <div className="w-16 h-16 flex items-center justify-center rounded-md bg-gold-glow text-[10px] text-text-muted">
+                    Sem imagem
+                  </div>
+                )}
 
                 <div className="flex flex-col items-start gap-1">
                   <p className="text-sm">{product.name}</p>

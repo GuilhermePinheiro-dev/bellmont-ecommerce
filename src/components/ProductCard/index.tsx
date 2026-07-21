@@ -24,7 +24,7 @@ export const ProductCard = ({ product }: Productprops) => {
     messageTimeoutRef.current = window.setTimeout(() => {
       setShowAddedMessage(false);
       messageTimeoutRef.current = null;
-    }, 1500); 
+    }, 1500);
   };
 
   return (
@@ -33,15 +33,21 @@ export const ProductCard = ({ product }: Productprops) => {
         to="/products/$productId"
         params={{ productId: String(product.id) }}
       >
-        <img
-          src={product.image}
-          alt={product.name}
-          className="object-cover rounded-md md-2 w-full"
-        />
+        {product.images?.[0] ? (
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            className="object-cover rounded-md md-2 w-full"
+          />
+        ) : (
+          <div className="flex h-48 items-center justify-center rounded-md bg-white/50 text-sm text-text-muted">
+            Sem imagem
+          </div>
+        )}
       </Link>
 
       <div className="rounded-2xl py-10 px-4 bg-gold-glow text-text">
-        <h3 className="text-lg font-semibold">{product.name}</h3>
+        <h3 className="text-lg text-left font-semibold">{product.name}</h3>
         <p>{product.color}</p>
 
         <div className="flex justify-between mt-2.5">
@@ -57,8 +63,8 @@ export const ProductCard = ({ product }: Productprops) => {
 
         <div
           className={`pointer-events-none inset-x-0 bottom-10 fixed flex justify-center transition-all duration-300 ease-in-out ${
-            showAddedMessage 
-              ? "opacity-100 translate-y-0 visible" 
+            showAddedMessage
+              ? "opacity-100 translate-y-0 visible"
               : "opacity-0 translate-y-2 visible:invisible"
           }`}
         >
