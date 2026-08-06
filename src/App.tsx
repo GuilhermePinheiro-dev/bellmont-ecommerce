@@ -1,6 +1,7 @@
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./router-tree-gen";
-import { CartProvider } from "./components/contexts/CartProvider";
+import { CartProvider } from "./components/contexts/CartContext/CartProvider";
+import { AuthProvider } from "./components/contexts/AuthContext/AuthProvider";
 
 const router = createRouter({ routeTree });
 
@@ -12,9 +13,11 @@ declare module "@tanstack/react-router" {
 
 function App() {
   return (
-    <CartProvider>
-      <RouterProvider router={router} />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

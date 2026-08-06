@@ -65,7 +65,7 @@ function RouteComponent() {
           ></div>
         </div>
       ) : products.length === 0 ? (
-        <p className="text-center">Produto não encontrado</p>
+        <p className="text-center h-40">Produto não encontrado</p>
       ) : (
         <>
           <ProductList products={products} />

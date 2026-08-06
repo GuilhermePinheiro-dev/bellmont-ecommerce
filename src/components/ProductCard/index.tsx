@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import type { Product } from "../../interfaces/product";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import { useContext, useRef, useState } from "react";
-import { CartContext } from "../contexts/CartContext";
+import { CartContext } from "../contexts/CartContext/CartContext";
 
 interface Productprops {
   product: Product;

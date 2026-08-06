@@ -3,7 +3,7 @@ import { GoQuestion } from "react-icons/go";
 import logoBellmont from "@/assets/img/logo-bellmont.png";
 import { Link } from "@tanstack/react-router";
 import { useContext, useState } from "react";
-import { CartContext } from "../contexts/CartContext";
+import { CartContext } from "../contexts/CartContext/CartContext";
 import { MenuMobile } from "../MenuMobile";
 import { CartButton } from "../CartButton";
 import { CartDrawer } from "../CartDrawer";
