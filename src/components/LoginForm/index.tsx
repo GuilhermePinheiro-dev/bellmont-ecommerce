@@ -8,7 +8,7 @@ import { useNavigate } from "@tanstack/react-router";
 export const LoginForm = () => {
   const { signIn } = useAuth();
   const [authError, setAuthError] = useState<string | null>(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const signInFormSchema = z.object({
     email: z.email("E-mail inválido"),
@@ -30,9 +30,10 @@ export const LoginForm = () => {
 
     try {
       await signIn(data);
-      navigate({ to: "/"})
+      navigate({ to: "/" });
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Erro ao fazer login";
+      const message =
+        error instanceof Error ? error.message : "Erro ao fazer login";
       setAuthError(message);
       console.log("Erro ao fazer login", error);
     }
@@ -96,7 +97,9 @@ export const LoginForm = () => {
         )}
       </button>
 
-      {authError && <p className="text-danger text-sm text-center">{authError}</p>}
+      {authError && (
+        <p className="text-danger text-sm text-center">{authError}</p>
+      )}
     </form>
   );
 };
