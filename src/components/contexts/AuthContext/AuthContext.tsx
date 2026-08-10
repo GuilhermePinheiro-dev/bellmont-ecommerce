@@ -32,6 +32,7 @@ interface AuthContextType {
   signIn: (credentials: Credentials) => Promise<void>;
 //   register: (data: RegisterInput) => Promise<void>;
   signOut: () => void;
+  signInWithGoogle: (credential: string) => Promise<void>
 }
 
 export const AuthContext = createContext({} as AuthContextType)

@@ -59,11 +59,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsAuthenticated(false);
   }
 
+  async function signInWithGoogle(credential: string): Promise<void> {
+    const response = await fetch("http://localhost:3000/auth/google", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ credential }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.user) {
+      throw new Error(result.message || "Erro ao fazer login com o Google");
+    }
+
+    setUser(result);
+    setIsAuthenticated(true);
+  }
+
   const value = {
     isAuthenticated,
     user,
     signIn,
     signOut,
+    signInWithGoogle,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
