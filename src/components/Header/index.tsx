@@ -7,21 +7,31 @@ import { CartContext } from "../contexts/CartContext/CartContext";
 import { MenuMobile } from "../MenuMobile";
 import { CartButton } from "../CartButton";
 import { CartDrawer } from "../CartDrawer";
+import { useAuth } from "../contexts/AuthContext/AuthContext";
+import { PiSignOutLight } from "react-icons/pi";
 
-
-export interface NavLinks{
-  name: string,
-  href: string,
+export interface NavLinks {
+  name: string;
+  href: string;
 }
 
 const navLinks: NavLinks[] = [
-  {name: "Produtos", href: "/products" },
-  {name: "Nossas lojas", href: "/our-stores" },
-]
+  { name: "Produtos", href: "/products" },
+  { name: "Nossas lojas", href: "/our-stores" },
+];
 
 export const Header = () => {
   const { cart } = useContext(CartContext);
-  const [cartIsOpen, setCartValue] = useState<boolean>(false)
+  const [cartIsOpen, setCartValue] = useState<boolean>(false);
+  const { isAuthenticated, signOut } = useAuth();
+
+  const handleSignout = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.log("Erro ao deslogar: ", error);
+    }
+  };
 
   return (
     <div className="relative">
@@ -33,9 +43,11 @@ export const Header = () => {
 
           <nav className="hidden md:block">
             <ul className="flex gap-10">
-              {navLinks.map(link => (
-                <li key={link.name}
-                className="hover:text-primary-light transition-colors ease-in-out">
+              {navLinks.map((link) => (
+                <li
+                  key={link.name}
+                  className="hover:text-primary-light transition-colors ease-in-out"
+                >
                   <Link to={link.href}>{link.name}</Link>
                 </li>
               ))}
@@ -46,14 +58,27 @@ export const Header = () => {
               <li>
                 <MenuMobile navLinks={navLinks} />
               </li>
-              <li className="hidden md:block">
-                <Link
-                  to="/sign-up"
-                  className="hover:text-primary-light transition-colors ease-in-out"
-                >
-                  <GoPerson />
-                </Link>
-              </li>
+
+              {isAuthenticated ? (
+                <li>
+                  <button
+                    className="flex items-center gap-2 cursor-pointer hover:text-primary-light transition-colors ease-in-out"
+                    onClick={handleSignout}
+                  >
+                    <span className="text-sm">Sair</span>
+                    <PiSignOutLight />
+                  </button>
+                </li>
+              ) : (
+                <li className="hidden md:block">
+                  <Link
+                    to="/sign-up"
+                    className="hover:text-primary-light transition-colors ease-in-out"
+                  >
+                    <GoPerson />
+                  </Link>
+                </li>
+              )}
               <li className="hidden md:block">
                 <Link
                   to="/about"
@@ -63,7 +88,7 @@ export const Header = () => {
                 </Link>
               </li>
               <li className="relative">
-                <CartButton onClick={() => setCartValue(true)}/>
+                <CartButton onClick={() => setCartValue(true)} />
                 {cart.length > 0 && (
                   <div className="absolute w-4 h-4 rounded-full -top-1 -right-2 bg-danger-light text-white text-[10px] text-center">
                     {cart.length}
@@ -75,7 +100,7 @@ export const Header = () => {
         </div>
       </header>
 
-      <CartDrawer isOpen={cartIsOpen} onClose={() => setCartValue(false)}/>
+      <CartDrawer isOpen={cartIsOpen} onClose={() => setCartValue(false)} />
     </div>
   );
 };

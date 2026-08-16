@@ -4,14 +4,25 @@ import { LuX } from "react-icons/lu";
 import { Link } from "@tanstack/react-router";
 import { GoPerson } from "react-icons/go";
 import type { NavLinks } from "../Header";
+import { useAuth } from "../contexts/AuthContext/AuthContext";
+import { PiSignOutLight } from "react-icons/pi";
 
 interface MenuMobileProps {
-  navLinks: NavLinks[]
+  navLinks: NavLinks[];
 }
-
 
 export const MenuMobile = ({ navLinks }: MenuMobileProps) => {
   const [valueMenu, menuIsOpen] = useState<boolean>(false);
+
+  const { isAuthenticated, user, signOut } = useAuth();
+
+  const handleSignout = async () => {
+    try {
+      await signOut()
+    } catch (error) {
+      console.log("Erro ao deslogar: ", error);
+    }
+  }
 
   return (
     <>
@@ -35,35 +46,52 @@ export const MenuMobile = ({ navLinks }: MenuMobileProps) => {
         >
           <header className="flex items-center">
             <nav className="flex justify-between items-center bg-background-tertiary w-full h-19 px-5">
-                <Link to="/sign-up"
-                className="flex items-center gap-3">
-                  <GoPerson 
-                  className="h-6 w-6"/>
-                <p>Olá! Faça seu login!</p>
-                </Link>
+              <Link to="/sign-up" className="flex items-center gap-3">
+                <GoPerson className="h-6 w-6" />
+                {isAuthenticated ? (
+                  <p>Olá! {user?.firstName}</p>
+                ) : (
+                  <p>Olá! Faça seu login!</p>
+                )}
+              </Link>
 
-
-              <LuX 
-              className="cursor-pointer text-3xl"
-              onClick={() => menuIsOpen(!valueMenu)}/>
+              <LuX
+                className="cursor-pointer text-3xl"
+                onClick={() => menuIsOpen(!valueMenu)}
+              />
             </nav>
           </header>
 
           <section>
-            <ul className="py-2 px-5 flex flex-col gap-3" 
-            >
-            {navLinks.map( link => (
-              <li key={link.name} onClick={() => menuIsOpen(!valueMenu)}
-              className="self-start">
-                <Link to={link.href}>
-                  {link.name}
+            <ul className="py-2 px-5 flex flex-col gap-3">
+              {navLinks.map((link) => (
+                <li
+                  key={link.name}
+                  onClick={() => menuIsOpen(!valueMenu)}
+                  className="self-start"
+                >
+                  <Link to={link.href}>{link.name}</Link>
+                </li>
+              ))}
+
+              <li>
+                <Link
+                  to="/about"
+                  className="self-start"
+                  onClick={() => menuIsOpen(!valueMenu)}
+                >
+                  Sobre
                 </Link>
               </li>
-            ))}
-
-            <li>
-              <Link to="/about" className="self-start" onClick={() => menuIsOpen(!valueMenu)}>Sobre</Link>
-            </li>
+              { isAuthenticated && (
+                <li>
+                  <button className="flex items-center gap-2" onClick={handleSignout}>
+                    Sair
+                    <PiSignOutLight className="w-6 h-6 cursor-pointer hover:opacity-70 transition-opacity ">
+                    </PiSignOutLight>
+                  </button>
+                </li>
+              )}
             </ul>
           </section>
         </div>

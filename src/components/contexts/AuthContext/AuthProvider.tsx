@@ -54,9 +54,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsAuthenticated(true);
   }
 
-  function signOut(): void {
-    setUser(null);
-    setIsAuthenticated(false);
+  async function signOut(): Promise<void> {
+    try {
+      await fetch("http://localhost:3000/auth/signout", {
+        method: "POST",
+        credentials: "include",
+      });
+      setUser(null);
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.log("Erro ao fazer logout: ", error);
+    }
   }
 
   async function signInWithGoogle(credential: string): Promise<void> {
@@ -69,13 +77,45 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       body: JSON.stringify({ credential }),
     });
 
-    const result = await response.json();
+    const responseBody = await response.text();
+    let result: { user?: User; message?: string } = {};
 
-    if (!response.ok || !result.user) {
+    if (responseBody) {
+      try {
+        result = JSON.parse(responseBody) as { user?: User; message?: string };
+      } catch {
+        throw new Error("O servidor retornou uma resposta inválida ao autenticar com o Google");
+      }
+    }
+
+    if (!response.ok) {
       throw new Error(result.message || "Erro ao fazer login com o Google");
     }
 
-    setUser(result);
+    let user = result.user;
+
+    // Alguns backends respondem sem corpo apÃ³s criar o cookie de sessÃ£o.
+    // Nesse caso, obtÃ©m o usuÃ¡rio a partir da sessÃ£o que acabou de ser criada.
+    if (!user) {
+      const profileResponse = await fetch("http://localhost:3000/auth/profile", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!profileResponse.ok) {
+        console.log(profileResponse);
+        throw new Error("Login concluido, mas não foi possível obter os dados do usuário");
+      }
+
+      const profile = (await profileResponse.json()) as { user?: User };
+      user = profile.user;
+    }
+
+    if (!user) {
+      throw new Error("O servidor não retornou os dados do usuário autenticado");
+    }
+
+    setUser(user);
     setIsAuthenticated(true);
   }
 

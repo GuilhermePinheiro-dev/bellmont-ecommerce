@@ -42,7 +42,16 @@ export const GoogleAuthButton = () => {
   };
   return (
     <>
-      <GoogleLogin onSuccess={handleGoogleSucess} onError={handleGoogleError} />
+      <GoogleLogin
+        onSuccess={handleGoogleSucess}
+        onError={handleGoogleError}
+        size="large"
+        text="continue_with"
+        shape="rectangular"
+        logo_alignment="left"
+        width={400}
+        containerProps={{ className: "flex w-full justify-center" }}
+      />
       {googleError && (
         <p className="mt-3.5 text-red-600 text-center">{googleError}</p>
       )}
