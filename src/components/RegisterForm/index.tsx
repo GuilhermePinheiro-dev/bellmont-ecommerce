@@ -1,10 +1,33 @@
-import { useRegisterForm } from "./register-form.schema";
+import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "../contexts/AuthContext/AuthContext";
+import { useRegisterForm, type RegisterFormData } from "./register-form.schema";
+import { useState } from "react";
 
 export const RegisterForm = () => {
-  const { register, errors, isSubmitting } = useRegisterForm();
+  const [error, setError] = useState<string | null>(null);
+  const { register, errors, isSubmitting, handleSubmit } = useRegisterForm();
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
+  async function handleRegisteruser(data: RegisterFormData) {
+
+    const {confirmPassword, ...dataWithoutConfirmPassword } = data
+
+    try {
+      await signUp(dataWithoutConfirmPassword);
+      navigate({ to: "/" });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log("Erro ao registrar usuário", error.message);
+        setError(error.message)
+      } else {
+        console.log("Erro ao registrar usuário");
+        setError("Erro ao registrar usuário")
+      }
+    }
+  }
   return (
-    <form className="space-y-4 mt-2">
+    <form className="space-y-4 mt-2" onClick={handleSubmit(handleRegisteruser)}>
       <div className="flex flex-col text-text-muted">
         <label>Nome*</label>
         <input
@@ -12,7 +35,9 @@ export const RegisterForm = () => {
           {...register("firstName")}
           className={`w-full border rounded-sm p-1.5 mt-1 focus:outline-none ${errors.firstName ? "border-danger focus:ring-2 focus:ring-danger-light" : "border-success"}`}
         />
-        {errors.firstName && <p className="text-danger text-sm">{errors.firstName.message}</p>}
+        {errors.firstName && (
+          <p className="text-danger text-sm">{errors.firstName.message}</p>
+        )}
       </div>
 
       <div className="flex flex-col text-text-muted">
@@ -22,7 +47,9 @@ export const RegisterForm = () => {
           {...register("lastName")}
           className={`w-full border rounded-sm p-1.5 mt-1 focus:outline-none ${errors.lastName ? "border-danger focus:ring-2 focus:ring-danger-light" : "border-success"}`}
         />
-        {errors.lastName && <p className="text-danger text-sm">{errors.lastName.message}</p>}
+        {errors.lastName && (
+          <p className="text-danger text-sm">{errors.lastName.message}</p>
+        )}
       </div>
 
       <div className="flex flex-col text-text-muted">
@@ -33,7 +60,9 @@ export const RegisterForm = () => {
           {...register("email")}
           className={`w-full border rounded-sm p-1.5 mt-1 focus:outline-none ${errors.email ? "border-danger focus:ring-2 focus:ring-danger-light" : "border-success"}`}
         />
-        {errors.email && <p className="text-danger text-sm">{errors.email.message}</p>}
+        {errors.email && (
+          <p className="text-danger text-sm">{errors.email.message}</p>
+        )}
       </div>
 
       <div className="flex flex-col text-text-muted">
@@ -44,7 +73,9 @@ export const RegisterForm = () => {
           {...register("cpf")}
           className={`w-full border rounded-sm p-1.5 mt-1 focus:outline-none ${errors.cpf ? "border-danger focus:ring-2 focus:ring-danger-light" : "border-success"}`}
         />
-        {errors.cpf && <p className="text-danger text-sm">{errors.cpf.message}</p>}
+        {errors.cpf && (
+          <p className="text-danger text-sm">{errors.cpf.message}</p>
+        )}
       </div>
 
       <div className="flex flex-col text-text-muted">
@@ -54,7 +85,9 @@ export const RegisterForm = () => {
           {...register("birthDate")}
           className={`w-full border rounded-sm p-1.5 mt-1 focus:outline-none ${errors.birthDate ? "border-danger focus:ring-2 focus:ring-danger-light" : "border-success"}`}
         />
-        {errors.birthDate && <p className="text-danger text-sm">{errors.birthDate.message}</p>}
+        {errors.birthDate && (
+          <p className="text-danger text-sm">{errors.birthDate.message}</p>
+        )}
       </div>
 
       <div className="flex flex-col text-text-muted">
@@ -65,7 +98,9 @@ export const RegisterForm = () => {
           {...register("phone")}
           className={`w-full border rounded-sm p-1.5 mt-1 focus:outline-none ${errors.phone ? "border-danger focus:ring-2 focus:ring-danger-light" : "border-success"}`}
         />
-        {errors.phone && <p className="text-danger text-sm">{errors.phone.message}</p>}
+        {errors.phone && (
+          <p className="text-danger text-sm">{errors.phone.message}</p>
+        )}
       </div>
 
       <div className="flex flex-col text-text-muted">
@@ -75,7 +110,9 @@ export const RegisterForm = () => {
           {...register("password")}
           className={`w-full border rounded-sm p-1.5 mt-1 focus:outline-none ${errors.password ? "border-danger focus:ring-2 focus:ring-danger-light" : "border-success"}`}
         />
-        {errors.password && <p className="text-danger text-sm">{errors.password.message}</p>}
+        {errors.password && (
+          <p className="text-danger text-sm">{errors.password.message}</p>
+        )}
       </div>
 
       <div className="flex flex-col text-text-muted">
@@ -86,13 +123,21 @@ export const RegisterForm = () => {
           className={`w-full border rounded-sm p-1.5 mt-1 focus:outline-none ${errors.confirmPassword ? "border-danger focus:ring-2 focus:ring-danger-light" : "border-success"}`}
         />
         {errors.confirmPassword && (
-          <p className="text-danger text-sm">{errors.confirmPassword.message}</p>
+          <p className="text-danger text-sm">
+            {errors.confirmPassword.message}
+          </p>
         )}
       </div>
 
-      <button disabled={isSubmitting} className="bg-primary-dark text-white uppercase font-semibold rounded-md py-3 transition-all hover:bg-primary-light disabled:opacity-50 w-full cursor-pointer">
+      <button
+        disabled={isSubmitting}
+        className="bg-primary-dark text-white uppercase font-semibold rounded-md py-3 transition-all hover:bg-primary-light disabled:opacity-50 w-full cursor-pointer"
+      >
         {isSubmitting ? "Enviando..." : "Continuar"}
       </button>
+            {error && (
+        <p className="text-danger text-sm text-center">{error}</p>
+      )}
     </form>
   );
 };
