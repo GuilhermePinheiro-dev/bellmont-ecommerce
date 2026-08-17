@@ -1,38 +1,53 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { products } from "../../../mocks/products";
+import { createFileRoute, Link, useLoaderData } from "@tanstack/react-router";
 import { formatCurrency } from "../../../utils/format-currency";
 import { useContext, useEffect, useRef, useState } from "react";
 import { CartContext } from "../../../components/contexts/CartContext/CartContext";
 import { CEPForm } from "../../../components/CEPForm";
+import { getDetailProductsById } from "../../../services/productService";
 
 export const Route = createFileRoute("/_app/products/$productId")({
-  component: RouteComponent,
-  head: ({ params }) => {
-    const filteredProduct = products.find(
-      (product) => product.id === Number(params.productId),
-    );
-
-    const title = filteredProduct
-      ? `${filteredProduct.name} - Produtos - Bellmont`
-      : "Produto não encontrado - Produtos - Bellmont";
-
-    return { meta: [{ title }] };
+  loader: async ({ params }) => {
+    const product = await getDetailProductsById(params.productId);
+    return { product };
   },
+  component: RouteComponent,
+  head: ({ loaderData }) => {
+    if (!loaderData) {
+      return {
+        meta: [{ title: "Produto não encontrado - Produtos - Bellmont" }],
+      };
+    }
+
+    return {
+      meta: [{ title: `${loaderData?.product?.name} - Produtos - Bellmont` }],
+    };
+  },
+  notFoundComponent: () => (
+    <section className="container mb-10 pt-44 md:pt-54 pb-10 md:px-10 h-[80vh] flex flex-col justify-center items-center">
+      <h1 className="text-3xl font-bold mb-4">Produto não encontrado</h1>
+      <p className=" text-gray-600 mb-6">
+        O produto que você está procurando não existe ou foi removido
+      </p>
+      <Link
+        to="/products"
+        className="text-primary-dark hover:text-primary hover:underline"
+      >
+        Voltar para produtos
+      </Link>
+    </section>
+  ),
 });
 
 function RouteComponent() {
   const { addinCart } = useContext(CartContext);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
   const messageTimeoutRef = useRef<number | null>(null);
-  const { productId } = Route.useParams();
-  const filteredProduct = products.find(
-    (product) => product.id === Number(productId),
-  );
+  const { product } = useLoaderData({ from: Route.id });
 
   const handleAddToCart = () => {
-    if (!filteredProduct) return;
+    if (!product) return;
 
-    addinCart(filteredProduct);
+    addinCart(product);
     setShowAddedMessage(true);
 
     if (messageTimeoutRef.current) {
@@ -53,22 +68,7 @@ function RouteComponent() {
     };
   }, []);
 
-  if (!filteredProduct)
-    return (
-      <section className="container mb-10 pt-44 md:pt-54 pb-10 md:px-10 h-[80vh] flex flex-col justify-center items-center">
-        <h1 className="text-3xl font-bold mb-4">Produto não encontrado</h1>
-        <p className=" text-gray-600 mb-6">
-          O produto que você está procurando não existe ou foi removido
-        </p>
-        <Link
-          to="/products"
-          className="text-primary-dark hover:text-primary hover:underline"
-        >
-          Voltar para produtos
-        </Link>
-      </section>
-    );
-  const originalPrice = filteredProduct?.price ?? 0;
+  const originalPrice = product?.price ?? 0;
   const descountPrice = originalPrice * 0.9;
   const inInstalmentsPrice = originalPrice / 6;
 
@@ -76,20 +76,20 @@ function RouteComponent() {
     <section className="container mb-10 pt-44 md:pt-54 pb-10 md:px-10">
       <nav className="text-sm mb-15 ml-9">
         <Link to="/"> Home </Link> / <Link to="/products"> Produtos </Link> /{" "}
-        <span className="font-semibold"> {filteredProduct?.name} </span>
+        <span className="font-semibold"> {product?.name} </span>
       </nav>
 
       <div className="flex flex-col md:flex-row justify-center gap-10 px-5 md:px-0 items-center">
         <img
-          src={filteredProduct?.images?.[0]}
-          alt={filteredProduct?.name}
+          src={product?.images?.[0]}
+          alt={product?.name}
           className="w-125 h-full md:h-106.25 bg-gold-glow rounded-2xl object-cover"
         />
         <div>
           <h1 className="font-bold text-4xl mb-1 font-title">
-            {filteredProduct?.name}
+            {product?.name}
           </h1>
-          <p className="mb-2">Cor: {filteredProduct?.color}</p>
+          <p className="mb-2">Cor: {product?.colors?.[0]}</p>
 
           <p className="line-through text-sm text-text-muted">
             {formatCurrency(originalPrice)}
@@ -109,7 +109,7 @@ function RouteComponent() {
             </span>
           </p>
 
-          <p className="max-w-125 mb-3 my-5">{filteredProduct?.description}</p>
+          <p className="max-w-125 mb-3 my-5">{product?.description}</p>
           <div className="mb-5">
             <p className="text-sm mb-2">Calcular o prazo de entrega</p>
 

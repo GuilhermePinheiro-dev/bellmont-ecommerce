@@ -1,3 +1,4 @@
+import { notFound } from "@tanstack/react-router";
 import type { Product } from "../interfaces/product";
 
 // const API_BASE_URL = "https://bellmont-api.onrender.com";
@@ -68,7 +69,8 @@ export async function getProducts({
 
     return {
       data: products,
-      total: typeof payload.total === "number" ? payload.total : products.length,
+      total:
+        typeof payload.total === "number" ? payload.total : products.length,
       page: typeof payload.page === "number" ? payload.page : page,
       limit: typeof payload.limit === "number" ? payload.limit : limit,
     };
@@ -77,4 +79,13 @@ export async function getProducts({
 
     throw new Error("Erro desconhecido ao buscar produtos.");
   }
+}
+
+export async function getDetailProductsById(id: string): Promise<Product | null> {
+  const response = await fetch(`http://localhost:3000/products/${id}`);
+
+  if(!response.ok){
+    throw notFound()
+  }
+  return await response.json();
 }
