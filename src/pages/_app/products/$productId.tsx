@@ -81,7 +81,7 @@ function RouteComponent() {
 
       <div className="flex flex-col md:flex-row justify-center gap-10 px-5 md:px-0 items-center">
         <img
-          src={product?.images?.[0]}
+          src={product?.images[0]}
           alt={product?.name}
           className="w-125 h-full md:h-106.25 bg-gold-glow rounded-2xl object-cover"
         />
@@ -89,7 +89,7 @@ function RouteComponent() {
           <h1 className="font-bold text-4xl mb-1 font-title">
             {product?.name}
           </h1>
-          <p className="mb-2">Cor: {product?.colors?.[0]}</p>
+          <p className="mb-2">Cor: {product?.color?.[0]}</p>
 
           <p className="line-through text-sm text-text-muted">
             {formatCurrency(originalPrice)}

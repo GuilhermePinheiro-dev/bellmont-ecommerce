@@ -9,5 +9,5 @@ export interface Product {
     slug: string,
     stock: number,
     active: boolean,
-    colors: string[],
+    color: string[],
 }

@@ -22,7 +22,7 @@ interface ProductLike {
   slug?: string;
   stock?: number;
   active?: boolean;
-  color?: string;
+  color?: string[];
   category?: {
     id?: number;
     name?: string;
@@ -56,7 +56,7 @@ const normalizeProduct = (product: ProductLike): ProductCart => ({
       .replace(/\s+/g, "-"),
   stock: product.stock ?? 99,
   active: product.active ?? true,
-  color: product.color ?? "",
+  color: product.color ?? [],
   quantity: 1,
 });
 
