@@ -70,7 +70,7 @@ function RouteComponent() {
 
   const originalPrice = product?.price ?? 0;
   const descountPrice = originalPrice * 0.9;
-  const inInstalmentsPrice = originalPrice / 6;
+  const inInstalmentsPrice = originalPrice / 6;  
 
   return (
     <section className="container mb-10 pt-44 md:pt-54 pb-10 md:px-10">
@@ -89,7 +89,7 @@ function RouteComponent() {
           <h1 className="font-bold text-4xl mb-1 font-title">
             {product?.name}
           </h1>
-          <p className="mb-2">Cor: {product?.color?.[0]}</p>
+          <p className="mb-2">Cor: {product?.colors?.[0]}</p>
 
           <p className="line-through text-sm text-text-muted">
             {formatCurrency(originalPrice)}

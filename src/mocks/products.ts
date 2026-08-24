@@ -22,7 +22,7 @@ export const products = [
     slug: "bellmont-noir-essence",
     stock: 12,
     active: true,
-    color: ["Preto Fosco"],
+    colors: ["Preto Fosco"],
   },
   {
     id: 2,
@@ -36,7 +36,7 @@ export const products = [
     slug: "bellmont-golden-elixir",
     stock: 10,
     active: true,
-    color: ["Dourado Champagne"],
+    colors: ["Dourado Champagne"],
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ export const products = [
     slug: "bellmont-imperial-oud",
     stock: 8,
     active: true,
-    color: ["Marrom Espresso"],
+    colors: ["Marrom Espresso"],
   },
   {
     id: 4,
@@ -64,7 +64,7 @@ export const products = [
     slug: "bellmont-chronos",
     stock: 6,
     active: true,
-    color: ["Preto Ônix"],
+    colors: ["Preto Ônix"],
   },
   {
     id: 5,
@@ -78,7 +78,7 @@ export const products = [
     slug: "bellmont-heritage-gold",
     stock: 5,
     active: true,
-    color: ["Dourado Fosco"],
+    colors: ["Dourado Fosco"],
   },
   {
     id: 6,
@@ -92,7 +92,7 @@ export const products = [
     slug: "bellmont-eclipse",
     stock: 4,
     active: true,
-    color: ["Grafite Escuro"],
+    colors: ["Grafite Escuro"],
   },
   {
     id: 7,
@@ -106,7 +106,7 @@ export const products = [
     slug: "bellmont-royal-ring",
     stock: 9,
     active: true,
-    color: ["Dourado Premium"],
+    colors: ["Dourado Premium"],
   },
   {
     id: 8,
@@ -120,7 +120,7 @@ export const products = [
     slug: "bellmont-signature-chain",
     stock: 7,
     active: true,
-    color: ["Ouro Champagne"],
+    colors: ["Ouro Champagne"],
   },
   {
     id: 9,
@@ -134,7 +134,7 @@ export const products = [
     slug: "bellmont-premium-polo",
     stock: 11,
     active: true,
-    color: ["Marrom Café"],
+    colors: ["Marrom Café"],
   },
   {
     id: 10,
@@ -148,6 +148,6 @@ export const products = [
     slug: "bellmont-essential-shirt",
     stock: 10,
     active: true,
-    color: ["Bege Areia"],
+    colors: ["Bege Areia"],
   },
 ];

@@ -13,7 +13,7 @@ export const ProductCard = ({ product }: Productprops) => {
   const { addinCart } = useContext(CartContext);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
   const messageTimeoutRef = useRef<number | null>(null);
-  
+
   const handleAddToCart = () => {
     addinCart(product);
     setShowAddedMessage(true);
@@ -49,12 +49,10 @@ export const ProductCard = ({ product }: Productprops) => {
 
       <div className="rounded-2xl py-10 px-4 bg-gold-glow text-text">
         <h3 className="text-lg text-left font-semibold">{product.name}</h3>
-        <p>{product.color?.[0]}</p>
+        <p>{product.colors?.[0]}</p>
 
         <div className="flex justify-between mt-2.5">
-          <p>
-            {formatCurrency(product.price)}
-          </p>
+          <p>{formatCurrency(product.price)}</p>
 
           <button
             className="cursor-pointer transition-transform duration-150 ease-in-out active:-translate-y-1 active:rotate-3"
