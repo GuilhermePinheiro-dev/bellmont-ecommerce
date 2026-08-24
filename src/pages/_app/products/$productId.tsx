@@ -70,7 +70,7 @@ function RouteComponent() {
 
   const originalPrice = product?.price ?? 0;
   const descountPrice = originalPrice * 0.9;
-  const inInstalmentsPrice = originalPrice / 6;  
+  const inInstalmentsPrice = originalPrice / 6;
 
   return (
     <section className="container mb-10 pt-44 md:pt-54 pb-10 md:px-10">
