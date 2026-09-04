@@ -1,4 +1,4 @@
-export interface address {
+export interface Address {
   cep: string;
   logradouro: string;
   complemento: string;
