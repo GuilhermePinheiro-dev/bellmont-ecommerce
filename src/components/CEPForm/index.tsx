@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CEPUseForm } from "./cep-form.schema";
-import type { address } from "../../interfaces/address";
+import type { Address } from "../../interfaces/address";
 import { formatCurrency } from "../../utils/format-currency";
 
 const SHIPPING_BY_REGION: Record<string, number> = {
@@ -13,7 +13,7 @@ const SHIPPING_BY_REGION: Record<string, number> = {
 
 export const CEPForm = () => {
   const { register, handleSubmit, errors, isSubmitting, reset } = CEPUseForm();
-  const [address, setAddress] = useState<address | null>(null);
+  const [address, setAddress] = useState<Address | null>(null);
   const [addressError, setAddressError] = useState<string | null>(null);
 
   const onSubmit = async ({ cep }: { cep: string }) => {

@@ -8,6 +8,8 @@ import z from "zod";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Address } from "../../interfaces/address";
+import { useAuth } from "../../components/contexts/AuthContext/AuthContext";
+import { loadStripe } from "@stripe/stripe-js";
 
 export const Route = createFileRoute("/checkout/")({
   component: RouteComponent,
@@ -23,7 +25,7 @@ const shippinAdressFormSchema = z.object({
   cep: z.string().min(8, "CEP inválido"),
 });
 
-type ShippingAdressFormData = z.infer<typeof shippinAdressFormSchema>;
+type ShippingAddressFormData = z.infer<typeof shippinAdressFormSchema>;
 
 async function gepCep(cep: string) {
   const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
@@ -37,6 +39,57 @@ const FRETE_POR_REGIAO: Record<string, number> = {
   Sudeste: 14.9,
   Sul: 19.9,
 };
+interface OrdemItem {
+  productId: number;
+  quantity: number;
+  size?: string;
+}
+
+async function createStripeCheckout(
+  items: OrdemItem[],
+  shippingAdress: ShippingAddressFormData,
+  shippingCost: number,
+  paymentMethod: string,
+  userId: number,
+) {
+  const response = await fetch("http://localhost:3000/stripe/checkout", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      items,
+      shippingAddress: shippingAdress,
+      shippingCost,
+      paymentMethod,
+      userId,
+    }),
+  });
+
+  const data = await response.json();
+
+  console.log("Resposta de /stripe/checkout:", {
+    status: response.status,
+    ok: response.ok,
+    data,
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      data.message ?? data.error ?? "A API recusou a criação do checkout.",
+    );
+  }
+
+  if (typeof data.sessionId !== "string" || data.sessionId.length === 0) {
+    throw new Error(
+      "A API respondeu sem sessionId. Verifique a resposta do backend.",
+    );
+  }
+
+  console.log("Stripe sessionId recebido:", data.sessionId);
+  return data as { sessionId: string };
+}
 
 function RouteComponent() {
   const { cart } = useContext(CartContext);
@@ -47,13 +100,14 @@ function RouteComponent() {
   const {
     reset,
     setValue,
+    getValues,
     watch,
     register,
     formState: { errors, isSubmitting },
-  } = useForm<ShippingAdressFormData>({
+  } = useForm<ShippingAddressFormData>({
     resolver: zodResolver(
       shippinAdressFormSchema,
-    ) as unknown as Resolver<ShippingAdressFormData>,
+    ) as unknown as Resolver<ShippingAddressFormData>,
     defaultValues: {
       street: "" as any,
       number: "" as any,
@@ -67,6 +121,7 @@ function RouteComponent() {
   });
 
   const [address, setAddress] = useState<Address | null>(null);
+  const { user } = useAuth();
 
   const cepValue = watch("cep");
 
@@ -91,6 +146,40 @@ function RouteComponent() {
 
     fetchData();
   }, [cepValue]);
+
+  const redirectToCheckOut = async () => {
+    if (!address) return;
+
+    const shippingData = getValues();
+    const paymentMethod = "credit_card";
+
+    const items = cart.map((item) => ({
+      productId: item.id,
+      quantity: item.quantity,
+      size: item.sizes[0],
+    }));
+
+    try {
+      const { sessionId } = await createStripeCheckout(
+        items,
+        shippingData,
+        address.shippingCost,
+        paymentMethod,
+        user?.id!,
+      );
+
+      if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) return;
+
+      const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+      stripe?.redirectToCheckout({
+        sessionId,
+      });
+    } catch (error) {
+      console.error("Erro ao criar sessão do Stripe:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background-secondary text-text pt-5">
       <header className="container flex items-center justify-between h-16 py-10 bg-surface">
@@ -371,21 +460,27 @@ function RouteComponent() {
                 <div className="flex justify-between gap-4">
                   <dt>Frete</dt>
                   <dd className="font-semibold">
-                    {address ? formatCurrency(address.shippingCost) : "A calcular"}
+                    {address
+                      ? formatCurrency(address.shippingCost)
+                      : "A calcular"}
                   </dd>
                 </div>
                 <div className="flex justify-between gap-4">
                   <dt>Total</dt>
                   <dd className="font-bold">
-                    {formatCurrency(subtotal + (address ? address.shippingCost : 0))} à vista
+                    {formatCurrency(
+                      subtotal + (address ? address.shippingCost : 0),
+                    )}{" "}
+                    à vista
                   </dd>
                 </div>
               </dl>
               <button
-                className="mt-5 w-full bg-black py-3 text-sm font-semibold text-white transition hover:bg-text-soft disabled:cursor-not-allowed disabled:bg-text-disabled"
-                disabled={cart.length === 0}
+                className="mt-5 w-full bg-black py-3 text-sm font-semibold text-white transition hover:bg-text-soft disabled:cursor-not-allowed disabled:bg-text-disabled cursor-pointer"
+                disabled={cart.length === 0 || !address}
                 form="checkout-form"
-                type="submit"
+                onClick={redirectToCheckOut}
+                type="button"
               >
                 Fechar pedido
               </button>

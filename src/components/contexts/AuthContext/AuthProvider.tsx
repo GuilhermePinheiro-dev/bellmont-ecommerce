@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AuthContext,
   type Credentials,
@@ -10,11 +10,26 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
+function getUserFromResponse(data: unknown): User | null {
+  if (!data || typeof data !== "object") return null;
+
+  const response = data as { user?: User; id?: number; email?: string };
+  return (
+    response.user ??
+    (typeof response.id === "number" && typeof response.email === "string"
+      ? (response as User)
+      : null)
+  );
+}
+
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const authRequestId = useRef(0);
 
   useEffect(() => {
+    const requestId = ++authRequestId.current;
+
     const fetchUserProfile = async () => {
       try {
         const response = await fetch("http://localhost:3000/auth/profile", {
@@ -26,11 +41,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
 
         const data = await response.json();
-        setUser(data.user);
+        if (requestId !== authRequestId.current) return;
+
+        const authenticatedUser = getUserFromResponse(data);
+        if (!authenticatedUser) {
+          throw new Error("O servidor não retornou um usuário válido");
+        }
+
+        setUser(authenticatedUser);
         setIsAuthenticated(true);
 
-        console.log(data.user);
+        console.log(authenticatedUser);
       } catch (error) {
+        if (requestId !== authRequestId.current) return;
+
         console.error("Erro ao buscar perfil so usuário", error);
         setUser(null);
         setIsAuthenticated(false);
@@ -41,6 +65,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   async function signIn(credentials: Credentials): Promise<void> {
+    ++authRequestId.current;
+
     const response = await fetch("http://localhost:3000/auth/login", {
       method: "POST",
       credentials: "include",
@@ -55,30 +81,44 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       throw new Error(data.message || `Erro ${response.status}`);
     }
 
-    setUser(data.user);
+    const authenticatedUser = getUserFromResponse(data);
+    if (!authenticatedUser) {
+      throw new Error("O servidor não retornou um usuário válido");
+    }
+
+    setUser(authenticatedUser);
     setIsAuthenticated(true);
   }
 
   async function signUp(data: RegisterInput): Promise<void> {
+    ++authRequestId.current;
+
     const response = await fetch("http://localhost:3000/auth/register", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-
       },
       body: JSON.stringify(data),
     });
 
-    const result = await response.json()
+    const result = await response.json();
 
-    if(!response.ok){
-      throw new Error(result.message || "Erro ao cadastra usuário")
+    if (!response.ok) {
+      throw new Error(result.message || "Erro ao cadastra usuário");
     }
-    setUser(result.user)
-    setIsAuthenticated(true)
+    const authenticatedUser = getUserFromResponse(result);
+    if (!authenticatedUser) {
+      throw new Error("O servidor não retornou um usuário válido");
+    }
+
+    setUser(authenticatedUser);
+    setIsAuthenticated(true);
   }
 
   async function signOut(): Promise<void> {
+    ++authRequestId.current;
+
     try {
       await fetch("http://localhost:3000/auth/signout", {
         method: "POST",
@@ -92,6 +132,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   async function signInWithGoogle(credential: string): Promise<void> {
+    ++authRequestId.current;
+
     const response = await fetch("http://localhost:3000/auth/google", {
       method: "POST",
       credentials: "include",
@@ -118,7 +160,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       throw new Error(result.message || "Erro ao fazer login com o Google");
     }
 
-    let user = result.user;
+    let user = getUserFromResponse(result);
 
     if (!user) {
       const profileResponse = await fetch(
@@ -136,8 +178,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         );
       }
 
-      const profile = (await profileResponse.json()) as { user?: User };
-      user = profile.user;
+      const profile = await profileResponse.json();
+      user = getUserFromResponse(profile);
     }
 
     if (!user) {
